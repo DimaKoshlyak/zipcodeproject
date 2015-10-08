@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+
+<head>
+	<title> Twenty largest cities</title>
+	<SCRIPT SRC="http://d3js.org/d3.v3.min.js"></SCRIPT>
+</head>
+
+<body>
+	<h3>20 городов по количеству населения</h3>
+
+	<script>
+
+	d3.json("{{ url_for('static', filename='export.json') }}", function(data){
+	
+	var canvas = d3.select("body").append("svg")
+		.attr("width", 600)
+		.attr("height", 600)
+
+	canvas.selectAll("rect")
+		.data(data)
+		.enter()
+			.append("rect")
+			.attr("width", function(d) {return d.pop*0.004;})
+			.attr("height", 28)
+			.attr("y", function(d,i) {return i*30;})
+			.attr("fill", "grey");
+
+	canvas.selectAll("text")
+			.data(data)
+			.enter()
+				.append("text")
+				.attr("fill", "black")
+				.attr("y", function (d,i) {return i* 30 + 24;})
+				.text (function (d) {return d.city;})
+	})
+	</script>
+</body>
+</html>
